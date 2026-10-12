@@ -16,5 +16,22 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 endif()
 
-add_subdirectory(libs/http)
+# --- Dependencies ---
+include(FetchContent)
+
+# cpp-httplib: HTTP server + client. TLS/compression off until needed.
+set(HTTPLIB_USE_OPENSSL_IF_AVAILABLE OFF CACHE BOOL "" FORCE)
+set(HTTPLIB_USE_ZLIB_IF_AVAILABLE OFF CACHE BOOL "" FORCE)
+set(HTTPLIB_USE_BROTLI_IF_AVAILABLE OFF CACHE BOOL "" FORCE)
+set(HTTPLIB_USE_ZSTD_IF_AVAILABLE OFF CACHE BOOL "" FORCE)
+set(HTTPLIB_INSTALL OFF CACHE BOOL "" FORCE)
+
+FetchContent_Declare(httplib
+    URL https://github.com/yhirose/cpp-httplib/archive/refs/tags/v0.60.1.tar.gz
+    URL_HASH SHA256=f42fc046e55f968a9dd43b272251f033b08538d3e359235608f980f551053215
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+)
+FetchContent_MakeAvailable(httplib)
+
+# --- Apps ---
 add_subdirectory(apps/api_server)

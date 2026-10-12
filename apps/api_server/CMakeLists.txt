@@ -4,7 +4,7 @@ add_executable(api_server
 
 target_link_libraries(api_server
     PRIVATE
-        sdi::http
+        httplib::httplib
 )
 
 target_compile_options(api_server PRIVATE -Wall -Wextra -Wpedantic)
