@@ -4,6 +4,7 @@ add_executable(api_server
     routes/home.cpp
     routes/health.cpp
     routes/events.cpp
+    event_store/in_memory_event_store.cpp
 )
 
 target_link_libraries(api_server
