@@ -1,5 +1,9 @@
 #include "config.h"
 
+// Routes
+#include "routes/health.h"
+#include "routes/home.h"
+
 #include <httplib.h>
 #include <exception>
 #include <iostream>
@@ -19,13 +23,8 @@ int main() {
         std::cout << req.method << " " << req.path << " -> " << res.status << std::endl;
     });
 
-    server.Get("/", [](const httplib::Request &, httplib::Response &res) {
-        res.set_content("<h1>Sports Data Infrastructure</h1>", "text/html");
-    });
-
-    server.Get("/health", [](const httplib::Request &, httplib::Response &res) {
-        res.set_content(R"({"status":"ok"})", "application/json");
-    });
+    api_server::registerHomeRoutes(server);     // /
+    api_server::registerHealthRoutes(server);   // /health
 
     std::cout << "Listening on http://" << config.host << ":" << config.port << std::endl;
     if (!server.listen(config.host, config.port)) {
