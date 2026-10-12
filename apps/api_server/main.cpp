@@ -1,4 +1,5 @@
 #include "config.h"
+#include "event_store/in_memory_event_store.h"
 
 // Routes
 #include "routes/events.h"
@@ -17,6 +18,7 @@ int main() {
         std::cerr << "Config error: " << e.what() << std::endl;
         return 1;
     }
+    api_server::InMemoryEventStore eventStore;
 
     httplib::Server server;
 
@@ -27,7 +29,7 @@ int main() {
 
     api_server::registerHomeRoutes(server);            // /
     api_server::registerHealthRoutes(server);          // /health
-    api_server::registerEventRoutes(server, apiVersion);    // /v1/events
+    api_server::registerEventRoutes(server, apiVersion, eventStore);    // /v1/events
 
     std::cout << "Listening on http://" << config.host << ":" << config.port << std::endl;
     if (!server.listen(config.host, config.port)) {
