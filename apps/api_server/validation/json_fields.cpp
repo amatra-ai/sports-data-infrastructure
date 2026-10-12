@@ -6,6 +6,14 @@
 
 namespace api_server {
 
+    nlohmann::json parseJson(const std::string &text) {
+        try {
+            return nlohmann::json::parse(text);
+        } catch (const nlohmann::json::parse_error &) {
+            throw ValidationError("invalid JSON");
+        }
+    }
+
     std::string requireString(const nlohmann::json &object, const char *field) {
         auto it = object.find(field);
         if (it == object.end()) {

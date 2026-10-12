@@ -1,6 +1,5 @@
 #include "events.h"
 
-#include "routes/responses.h"
 #include "validation/json_fields.h"
 #include "validation/validation_error.h"
 
@@ -37,24 +36,9 @@ namespace api_server {
             return event;
         }
 
+        // Invalid input throws ValidationError, which the global error handler turns into a 400.
         void createEvent(EventStore &store, const httplib::Request &req, httplib::Response &res) {
-
-            json body;
-            
-            try {
-                body = json::parse(req.body);
-            } catch (const json::parse_error &) {
-                sendError(res, 400, "request body is not valid JSON");
-                return;
-            }
-
-            DataEvent event;
-            try {
-                event = toDataEvent(body, nowMs());
-            } catch (const ValidationError &e) {
-                sendError(res, 400, e.what());
-                return;
-            }
+            DataEvent event = toDataEvent(parseJson(req.body), nowMs());
 
             store.append(event);
 

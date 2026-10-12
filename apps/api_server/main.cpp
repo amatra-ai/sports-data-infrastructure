@@ -2,6 +2,7 @@
 #include "event_store/in_memory_event_store.h"
 
 // Routes
+#include "routes/error_handler.h"
 #include "routes/events.h"
 #include "routes/health.h"
 #include "routes/home.h"
@@ -25,6 +26,8 @@ int main() {
     server.set_logger([](const httplib::Request &req, const httplib::Response &res) {
         std::cout << req.method << " " << req.path << " -> " << res.status << std::endl;
     });
+    api_server::registerErrorHandler(server);
+
     const std::string apiVersion = "/v1";
 
     api_server::registerHomeRoutes(server);            // /

@@ -5,6 +5,7 @@ add_executable(api_server
     routes/health.cpp
     routes/events.cpp
     routes/responses.cpp
+    routes/error_handler.cpp
     validation/json_fields.cpp
     event_store/in_memory_event_store.cpp
 )

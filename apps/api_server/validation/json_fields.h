@@ -8,7 +8,8 @@
 
 namespace api_server {
 
-    
+    nlohmann::json parseJson(const std::string &text);
+
     std::string requireString(const nlohmann::json &object, const char *field);
 
     std::int64_t requireInt64(const nlohmann::json &object, const char *field);
