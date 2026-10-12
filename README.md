@@ -19,3 +19,18 @@ cmake --build build
 ```
 
 Then open http://127.0.0.1:8080.
+
+## Configuration
+
+Settings come from environment variables. See `.env.example` for the full list.
+
+```bash
+cp .env.example .env      # once; .env is gitignored
+set -a; source .env; set +a
+./build/apps/api_server/api_server
+```
+
+| Variable | Default     | Description            |
+|----------|-------------|------------------------|
+| `HOST`   | `127.0.0.1` | Address to listen on   |
+| `PORT`   | `8080`      | Port to listen on      |

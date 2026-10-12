@@ -1,5 +1,6 @@
 add_executable(api_server
     main.cpp
+    config.cpp
 )
 
 target_link_libraries(api_server

@@ -8,3 +8,8 @@ cmake-build-*/
 .cache/
 compile_commands.json
 .DS_Store
+
+# Local environment (copy .env.example to .env)
+.env
+.env.*
+!.env.example

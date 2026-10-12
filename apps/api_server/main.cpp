@@ -1,8 +1,18 @@
-#include <httplib.h>
+#include "config.h"
 
+#include <httplib.h>
+#include <exception>
 #include <iostream>
 
 int main() {
+    api_server::Config config;
+    try {
+        config = api_server::loadConfig();
+    } catch (const std::exception &e) {
+        std::cerr << "Config error: " << e.what() << std::endl;
+        return 1;
+    }
+
     httplib::Server server;
 
     server.set_logger([](const httplib::Request &req, const httplib::Response &res) {
@@ -17,12 +27,9 @@ int main() {
         res.set_content(R"({"status":"ok"})", "application/json");
     });
 
-    const std::string host = "127.0.0.1";
-    const int port = 8080;
-
-    std::cout << "Listening on http://" << host << ":" << port << std::endl;
-    if (!server.listen(host, port)) {
-        std::cerr << "Failed to start server on " << host << ":" << port << std::endl;
+    std::cout << "Listening on http://" << config.host << ":" << config.port << std::endl;
+    if (!server.listen(config.host, config.port)) {
+        std::cerr << "Failed to start server on " << config.host << ":" << config.port << std::endl;
         return 1;
     }
 
