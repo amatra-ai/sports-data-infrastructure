@@ -3,6 +3,7 @@ add_executable(api_server
     config.cpp
     routes/home.cpp
     routes/health.cpp
+    routes/events.cpp
 )
 
 target_link_libraries(api_server

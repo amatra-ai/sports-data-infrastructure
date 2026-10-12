@@ -1,6 +1,7 @@
 #include "config.h"
 
 // Routes
+#include "routes/events.h"
 #include "routes/health.h"
 #include "routes/home.h"
 
@@ -22,9 +23,11 @@ int main() {
     server.set_logger([](const httplib::Request &req, const httplib::Response &res) {
         std::cout << req.method << " " << req.path << " -> " << res.status << std::endl;
     });
+    const std::string apiVersion = "/v1";
 
-    api_server::registerHomeRoutes(server);     // /
-    api_server::registerHealthRoutes(server);   // /health
+    api_server::registerHomeRoutes(server);            // /
+    api_server::registerHealthRoutes(server);          // /health
+    api_server::registerEventRoutes(server, apiVersion);    // /v1/events
 
     std::cout << "Listening on http://" << config.host << ":" << config.port << std::endl;
     if (!server.listen(config.host, config.port)) {
